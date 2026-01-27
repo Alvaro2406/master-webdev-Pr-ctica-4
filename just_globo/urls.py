@@ -1,3 +1,5 @@
+from django.contrib import admin
+from django.urls import path, include
 """
 URL configuration for just_globo project.
 
@@ -18,5 +20,7 @@ from django.contrib import admin
 from django.urls import path
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),ç
+    path('role/', include('api_view_roles.urls')),
+    path('user/', include('viewset_usuarios.urls')),
 ]

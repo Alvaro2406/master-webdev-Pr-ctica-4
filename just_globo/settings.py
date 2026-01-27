@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'just_globo',
+    'api_view_roles',
+    'viewset_usuarios',
 ]
 
 MIDDLEWARE = [
@@ -75,9 +77,16 @@ WSGI_APPLICATION = 'just_globo.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "just_globo",
+        "USER": "root",
+        "PASSWORD": "12345678",
+        "HOST": "localhost",   # o "localhost" / IP / nombre del contenedor
+        "PORT": "3306",
+        "OPTIONS": {
+            "charset": "utf8mb4",
+        },
     }
 }
 
