@@ -1,4 +1,5 @@
 from django.db import models
+from api_view_roles.models import Role
 
 class User(models.Model):
     id_user = models.AutoField(primary_key=True)
@@ -10,6 +11,8 @@ class User(models.Model):
     birth_date = models.DateField(null=True, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     points = models.IntegerField(default=0)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE)
+    
 
     def __str__(self):
         return self.username

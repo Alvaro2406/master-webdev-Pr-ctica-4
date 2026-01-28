@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'just_globo',
     'api_view_roles',
     'viewset_usuarios',
+    'api_view_establecimiento',
 ]
 
 MIDDLEWARE = [
