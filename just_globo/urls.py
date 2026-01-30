@@ -24,5 +24,6 @@ urlpatterns = [
     path('role/', include('api_view_roles.urls')),
     path('user/', include('viewset_usuarios.urls')),
     path('establecimiento/', include('api_view_establecimiento.urls')),
-
+    path('producto/', include('viewset_productos.urls')),
+    path('pedido/', include('api_view_pedidos.urls')),
 ]

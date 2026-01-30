@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'api_view_roles',
     'viewset_usuarios',
     'api_view_establecimiento',
+    'viewset_productos',
+    'api_view_pedidos',
 ]
 
 MIDDLEWARE = [
