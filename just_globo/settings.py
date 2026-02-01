@@ -38,13 +38,26 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    "rest_framework_simplejwt",
     'just_globo',
     'api_view_roles',
     'viewset_usuarios',
     'api_view_establecimiento',
     'viewset_productos',
     'api_view_pedidos',
+    'api_view_login',
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "api_view_login.authentication.CookieJWTAuthentication",
+    ),
+}
+
+SIMPLE_JWT = {
+    "USER_ID_FIELD": "id_user",
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

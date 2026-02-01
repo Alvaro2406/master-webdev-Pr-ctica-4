@@ -26,4 +26,5 @@ urlpatterns = [
     path('establecimiento/', include('api_view_establecimiento.urls')),
     path('producto/', include('viewset_productos.urls')),
     path('pedido/', include('api_view_pedidos.urls')),
+    path('auth/', include('api_view_login.urls')),
 ]

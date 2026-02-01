@@ -1,15 +1,19 @@
-from django.views.decorators.http import require_http_methods
-from django.views.decorators.csrf import csrf_exempt
+
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from utils.user_validation import HasJWTUser
+from utils.user_role import check_admin_role
 from django.http import JsonResponse
 import json
+from api_view_login.authentication import CookieJWTAuthentication
 from .models import Pedido
 from viewset_usuarios.models import User
 from viewset_productos.models import Producto
 
 # Create your views here.
 
-@csrf_exempt
-@require_http_methods(["POST"])
+@api_view(['POST'])
+@authentication_classes([CookieJWTAuthentication])
+@permission_classes([HasJWTUser])
 def pedido_create(request):
     try: 
         json_data = json.loads(request.body)
@@ -40,8 +44,13 @@ def pedido_create(request):
     return JsonResponse(pedido.to_dict(), status=201)
 
 
-@require_http_methods(["GET"])
+@api_view(['GET'])
+@authentication_classes([CookieJWTAuthentication])
+@permission_classes([HasJWTUser])
 def pedido_list(request):
+    user = User.objects.get(username=request.user)
+    if not check_admin_role(user):
+        return JsonResponse({'error': 'Permission denied'}, status=403)
     pedidos = Pedido.objects.all()
     pedidos_data = []
     for pedido in pedidos:
@@ -59,10 +68,15 @@ def pedido_list(request):
         
     return JsonResponse(pedidos_data, safe=False)
 
-@require_http_methods(["GET"])
+@api_view(['GET'])
+@authentication_classes([CookieJWTAuthentication])
+@permission_classes([HasJWTUser])
 def pedido_detail(request, id_pedido):
     try:
         pedido = Pedido.objects.get(id_pedido=id_pedido)
+        user = User.objects.get(username=request.user)
+        if not check_admin_role(user) or user.id_user != pedido.usuario.id_user:
+            return JsonResponse({'error': 'Permission denied'}, status=403)
     except Pedido.DoesNotExist:
         return JsonResponse({'error': 'Pedido not found'}, status=404)
     
@@ -81,8 +95,9 @@ def pedido_detail(request, id_pedido):
     return JsonResponse(pedido_data)
 
 
-@csrf_exempt
-@require_http_methods(["PUT"])
+@api_view(['PUT'])
+@authentication_classes([CookieJWTAuthentication])
+@permission_classes([HasJWTUser])
 def pedido_update(request, id_pedido):
     try: 
         json_data = json.loads(request.body)
@@ -91,6 +106,9 @@ def pedido_update(request, id_pedido):
     
     try:
         pedido = Pedido.objects.get(id_pedido=id_pedido)
+        user = User.objects.get(username=request.user)
+        if not check_admin_role(user) or user.id_user != pedido.usuario.id_user:
+            return JsonResponse({'error': 'Permission denied'}, status=403)
     except Pedido.DoesNotExist:
         return JsonResponse({'error': 'Pedido not found'}, status=404)
     
@@ -114,11 +132,15 @@ def pedido_update(request, id_pedido):
     return JsonResponse(pedido.to_dict())
 
 
-@csrf_exempt
-@require_http_methods(["DELETE"])
+@api_view(['DELETE'])
+@authentication_classes([CookieJWTAuthentication])
+@permission_classes([HasJWTUser])
 def pedido_delete(request, id_pedido):
     try:
         pedido = Pedido.objects.get(id_pedido=id_pedido)
+        user = User.objects.get(username=request.user)
+        if not check_admin_role(user) or user.id_user != pedido.usuario.id_user:
+            return JsonResponse({'error': 'Permission denied'}, status=403)
     except Pedido.DoesNotExist:
         return JsonResponse({'error': 'Pedido not found'}, status=404)
     
