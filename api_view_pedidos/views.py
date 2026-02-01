@@ -107,7 +107,7 @@ def pedido_update(request, id_pedido):
     try:
         pedido = Pedido.objects.get(id_pedido=id_pedido)
         user = User.objects.get(username=request.user)
-        if not check_admin_role(user) or user.id_user != pedido.usuario.id_user:
+        if not check_admin_role(user) and user.id_user != pedido.usuario.id_user:
             return JsonResponse({'error': 'Permission denied'}, status=403)
     except Pedido.DoesNotExist:
         return JsonResponse({'error': 'Pedido not found'}, status=404)
@@ -129,7 +129,7 @@ def pedido_update(request, id_pedido):
         pedido.precio_total = precio_total
     
     pedido.save()
-    return JsonResponse(pedido.to_dict())
+    return JsonResponse(pedido.to_dict(), status=200)
 
 
 @api_view(['DELETE'])
@@ -139,7 +139,7 @@ def pedido_delete(request, id_pedido):
     try:
         pedido = Pedido.objects.get(id_pedido=id_pedido)
         user = User.objects.get(username=request.user)
-        if not check_admin_role(user) or user.id_user != pedido.usuario.id_user:
+        if not check_admin_role(user) and user.id_user != pedido.usuario.id_user:
             return JsonResponse({'error': 'Permission denied'}, status=403)
     except Pedido.DoesNotExist:
         return JsonResponse({'error': 'Pedido not found'}, status=404)

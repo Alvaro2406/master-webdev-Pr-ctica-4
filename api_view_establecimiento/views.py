@@ -14,8 +14,8 @@ from utils.user_role import check_admin_role, check_propietario_role
 @authentication_classes([CookieJWTAuthentication])
 @permission_classes([HasJWTUser])
 def establecimiento_create(request):
-    print(request.user)
-    if not check_admin_role(request.user) or not check_propietario_role(request.user):
+    
+    if not check_admin_role(request.user) and not check_propietario_role(request.user):
         return JsonResponse({'error': 'Permission denied'}, status=403)
     try: 
         json_data = json.loads(request.body)
@@ -70,14 +70,20 @@ def establecimiento_detail(request, id_establecimiento):
 def establecimiento_update(request, id_establecimiento):
     try:
         user = User.objects.get(username=request.user)
+        
         if check_admin_role(user):
+            
             establecimiento = Establecimiento.objects.get(id_establecimiento=id_establecimiento)
         elif check_propietario_role(user):
+            print("ENTRA EN PROPIETARIO")
             establecimiento = Establecimiento.objects.get(id_establecimiento=id_establecimiento)
             if establecimiento.id_propietario != user.id_user:
                 return JsonResponse({'error': 'Permission denied'}, status=403)
     except Establecimiento.DoesNotExist:
         return JsonResponse({'error': 'Establecimiento not found'}, status=404)
+    
+    if not check_admin_role(request.user) and not check_propietario_role(request.user):
+        return JsonResponse({'error': 'Permission denied'}, status=403)
     try: 
         json_data = json.loads(request.body)
     except json.JSONDecodeError:
