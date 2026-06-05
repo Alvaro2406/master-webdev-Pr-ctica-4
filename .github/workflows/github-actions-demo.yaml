@@ -24,8 +24,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: build docker image
-        run: docker build -t ghcr.io/${{ github.repository }}:${{ github.ref_name }} .
+        run: docker build -t ghcr.io/alvaro2406/master-webdev-practica-4:${{ github.ref_name }} .
 
       - name: Push docker image to Github container Registery
-        run: docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+        run: docker push ghcr.io/alvaro2406/master-webdev-practica-4:${{ github.ref_name }}
         
