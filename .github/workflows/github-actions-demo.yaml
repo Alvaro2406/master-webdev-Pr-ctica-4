@@ -3,7 +3,7 @@ name: First contact with GitHub Actions
 on:
   push:
     tags:
-      -'*'
+      - '*'
 
 jobs:
   build:
