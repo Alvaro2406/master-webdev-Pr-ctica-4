@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.http import JsonResponse
 """
 URL configuration for just_globo project.
 
@@ -19,6 +20,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+def health_check(request):
+    return JsonResponse({"status": "ok"}, status=200)
+
+
 urlpatterns = [
     # path('admin/', admin.site.urls),ç
     path('role/', include('api_view_roles.urls')),
@@ -27,4 +32,5 @@ urlpatterns = [
     path('producto/', include('viewset_productos.urls')),
     path('pedido/', include('api_view_pedidos.urls')),
     path('auth/', include('api_view_login.urls')),
+    path('/', health_check, name='health_check')
 ]

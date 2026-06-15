@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-a0tq1-n)0mr#bq$20$!3js6_yeg$=tk8k813v20rk0p938p*97
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -93,16 +93,9 @@ WSGI_APPLICATION = 'just_globo.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "just_globo",
-        "USER": "root",
-        "PASSWORD": "12345678",
-        "HOST": "localhost",   # o "localhost" / IP / nombre del contenedor
-        "PORT": "3306",
-        "OPTIONS": {
-            "charset": "utf8mb4",
-        },
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
