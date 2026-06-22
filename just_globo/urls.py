@@ -32,5 +32,5 @@ urlpatterns = [
     path('producto/', include('viewset_productos.urls')),
     path('pedido/', include('api_view_pedidos.urls')),
     path('auth/', include('api_view_login.urls')),
-    path('/', health_check, name='health_check')
+    path('', health_check, name='health_check')
 ]
